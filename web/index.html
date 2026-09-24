@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101312">
+  <title>ScribeAI — Live multilingual meetings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">S</span><span>Scribe<span>AI</span></span></a>
+      <nav>
+        <p class="eyebrow">Workspace</p>
+        <a class="nav-item active" href="#"><span>◫</span> Live meeting</a>
+        <a class="nav-item" href="#"><span>◎</span> Recordings <b>12</b></a>
+        <a class="nav-item" href="#"><span>⌕</span> Search</a>
+        <p class="eyebrow space">Manage</p>
+        <a class="nav-item" href="#"><span>♧</span> Integrations</a>
+        <a class="nav-item" href="#"><span>⚙</span> Settings</a>
+      </nav>
+      <div class="usage">
+        <div class="usage-head"><span>Monthly usage</span><strong>68%</strong></div>
+        <div class="meter"><i></i></div>
+        <small>408 of 600 minutes</small>
+        <button>Upgrade plan <span>→</span></button>
+      </div>
+      <div class="profile"><span class="avatar">HT</span><div><strong>Huynh Tran</strong><small>Workspace admin</small></div><span>•••</span></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div><div class="crumb">Meetings <span>/</span> Live</div><h1>Product Sync — APAC</h1></div>
+        <div class="top-actions"><button class="icon-btn">↗</button><button class="end-btn"><i></i> End meeting</button></div>
+      </header>
+
+      <section class="status-row">
+        <div class="live-pill"><i></i> LIVE <span id="timer">18:42</span></div>
+        <div class="participant-stack"><span class="av a1">ML</span><span class="av a2">AK</span><span class="av a3">JT</span><span class="more">+3</span><span class="people">6 participants</span></div>
+        <div class="language"><span>文</span><div><small>Translating</small><strong>English → Vietnamese</strong></div><button>⌄</button></div>
+      </section>
+
+      <section class="workspace">
+        <div class="transcript-panel">
+          <div class="panel-title"><div><h2>Live transcript</h2><p>Real-time speech recognition and translation</p></div><div class="panel-actions"><button id="pause">Ⅱ</button><button>•••</button></div></div>
+          <div class="timeline" id="timeline">
+            <article class="segment">
+              <span class="speaker-avatar coral">ML</span><div class="utterance"><div class="speaker"><strong>Mai Linh</strong><time>09:38:12</time><em>VI</em></div><p>Chào mọi người. Chúng ta bắt đầu với tiến độ của bản phát hành tháng Mười nhé.</p><p class="translated">Good morning, everyone. Let's start with the progress on the October release.</p></div><span class="confidence">98%</span>
+            </article>
+            <article class="segment">
+              <span class="speaker-avatar blue">AK</span><div class="utterance"><div class="speaker"><strong>Alex Kim</strong><time>09:38:24</time><em>EN</em></div><p>The new transcription model passed our latency tests. We're consistently under 800 milliseconds now.</p><p class="translated">Mô hình phiên âm mới đã vượt qua các bài kiểm tra độ trễ. Hiện tại chúng ta luôn ở mức dưới 800 mili giây.</p></div><span class="confidence">96%</span>
+            </article>
+            <article class="segment">
+              <span class="speaker-avatar gold">JT</span><div class="utterance"><div class="speaker"><strong>Jun Tanaka</strong><time>09:38:41</time><em>JA</em></div><p>モバイル版でも同じ結果を確認できました。バッテリー消費も改善されています。</p><p class="translated">Chúng tôi đã xác nhận kết quả tương tự trên phiên bản di động. Mức tiêu thụ pin cũng đã được cải thiện.</p></div><span class="confidence">94%</span>
+            </article>
+            <article class="segment current">
+              <span class="speaker-avatar green">SR</span><div class="utterance"><div class="speaker"><strong>Sofia Reyes</strong><time>09:39:03</time><em>EN</em></div><p>That's excellent. Can we include the performance report in tomorrow's stakeholder update?</p><p class="translated">Tuyệt vời. Chúng ta có thể đưa báo cáo hiệu suất vào bản cập nhật cho các bên liên quan ngày mai không?</p><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>Listening…</span></div></div><span class="confidence live-c">LIVE</span>
+            </article>
+          </div>
+          <div class="composer"><span class="pulse">✦</span><span>ScribeAI is listening and translating in real time</span><button title="Add a note">＋ Add note</button></div>
+        </div>
+
+        <aside class="insights">
+          <div class="insight-head"><h2>AI insights</h2><span class="spark">✦</span></div>
+          <div class="summary"><div class="card-label"><span>✦</span> LIVE SUMMARY</div><p>The team confirmed the new transcription model meets latency targets across web and mobile. Battery performance has also improved.</p><small>Updated just now</small></div>
+          <div class="section-head"><h3>Action items</h3><span>2</span></div>
+          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Share performance report</strong><small>Alex · Tomorrow</small></span></label>
+          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Validate Japanese accuracy</strong><small>Jun · Oct 12</small></span></label>
+          <div class="section-head topics-head"><h3>Topics</h3></div>
+          <div class="topics"><span>Latency</span><span>Mobile</span><span>October release</span><span>Battery</span></div>
+          <div class="sentiment"><div><span>Meeting sentiment</span><strong>Positive</strong></div><div class="sentiment-bar"><i></i></div><small>85% positive engagement</small></div>
+        </aside>
+      </section>
+      <footer><span><i></i> All systems operational</span><span>Powered by Faster-Whisper · 742ms latency</span></footer>
+    </main>
+  </div>
+  <script src="/assets/app.js"></script>
+</body>
+</html>
+
