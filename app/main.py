@@ -1,5 +1,5 @@
-import asyncio
 from contextlib import asynccontextmanager
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
@@ -50,7 +50,7 @@ app = FastAPI(title="ScribeAI", version=VERSION, lifespan=lifespan)
 
 @app.get("/api/health", response_model=Health)
 async def health() -> Health:
-    return Health(status="healthy", version=VERSION, event_bus="memory")
+    return Health(status="healthy", version=VERSION, event_bus="redis-streams" if os.getenv("REDIS_URL") else "memory")
 
 
 @app.get("/api/meetings", response_model=list[Meeting])
@@ -105,4 +105,3 @@ if web_dir.exists():
     @app.get("/", include_in_schema=False)
     async def dashboard() -> FileResponse:
         return FileResponse(web_dir / "index.html")
-
