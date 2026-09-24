@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/app.css">
+  <link rel="stylesheet" href="/assets/realtime.css">
 </head>
 <body>
   <div class="shell">
@@ -34,8 +35,8 @@
 
     <main>
       <header class="topbar">
-        <div><div class="crumb">Cuộc họp <span>/</span> Trực tiếp</div><h1>Đồng bộ sản phẩm — APAC</h1></div>
-        <div class="top-actions"><button class="icon-btn" title="Chia sẻ">↗</button><button class="end-btn"><i></i> Kết thúc</button></div>
+        <div><div class="crumb">Cuộc họp <span>/</span> Trực tiếp</div><h1 id="meeting-title">Đồng bộ sản phẩm — APAC</h1></div>
+        <div class="top-actions"><button class="icon-btn" id="share" title="Sao chép liên kết">↗</button><button class="end-btn" id="end-meeting"><i></i> Kết thúc</button></div>
       </header>
 
       <section class="status-row">
@@ -47,7 +48,7 @@
       <section class="workspace">
         <div class="transcript-panel">
           <div class="panel-title"><div><h2>Phiên âm trực tiếp</h2><p>Nhận dạng giọng nói và dịch theo thời gian thực</p></div><div class="panel-actions"><button id="pause" title="Tạm dừng">Ⅱ</button><button>•••</button></div></div>
-          <div class="timeline" id="timeline">
+          <div class="timeline" id="timeline" aria-live="polite">
             <article class="segment">
               <span class="speaker-avatar coral">ML</span><div class="utterance"><div class="speaker"><strong>Mai Linh</strong><time>09:38:12</time><em>VI</em></div><p>Chào mọi người. Chúng ta bắt đầu với tiến độ của bản phát hành tháng Mười nhé.</p><p class="translated">Good morning, everyone. Let's start with the progress on the October release.</p></div><span class="confidence">98%</span>
             </article>
@@ -78,6 +79,7 @@
       <footer><span><i></i> Tất cả hệ thống hoạt động bình thường</span><span>Vận hành bởi Faster-Whisper · độ trễ 742ms</span></footer>
     </main>
   </div>
+  <div class="toast" id="toast" role="status"></div>
   <script src="/assets/app.js"></script>
 </body>
 </html>

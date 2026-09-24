@@ -47,3 +47,17 @@ class Health(BaseModel):
     version: str
     event_bus: str
 
+
+class AudioJob(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid4()))
+    meeting_id: str
+    speaker: str = "Người tham gia"
+    audio_path: str
+    target_language: str = "vi"
+    status: str = "queued"
+
+
+class MeetingInsights(BaseModel):
+    summary: str
+    action_items: list[str]
+    topics: list[str]

@@ -7,3 +7,5 @@ demo:
 	.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
 docker-up:
 	docker compose up --build
+asr:
+	docker compose --profile asr up --build

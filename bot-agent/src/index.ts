@@ -1,4 +1,5 @@
 import { chromium, type Browser, type Page } from 'playwright';
+import { AudioRecorder } from './recorder.js';
 
 type Provider = 'google-meet' | 'zoom' | 'teams';
 
@@ -31,6 +32,7 @@ async function joinGoogleMeet(page: Page): Promise<void> {
 async function run(): Promise<void> {
   if (!config.meetingUrl) throw new Error('MEETING_URL is required');
   let browser: Browser | undefined;
+  let recorder: AudioRecorder | undefined;
   try {
     browser = await chromium.launch({ headless: config.headless, args: ['--autoplay-policy=no-user-gesture-required'] });
     const context = await browser.newContext({ permissions: [] });
@@ -38,8 +40,16 @@ async function run(): Promise<void> {
     if (config.provider === 'google-meet') await joinGoogleMeet(page);
     else throw new Error(`${config.provider} adapter is not enabled yet`);
     console.log(`[agent] joined ${config.provider} as ${config.displayName}`);
+    if (process.env.API_URL && process.env.MEETING_ID && process.env.AUDIO_SOURCE) {
+      recorder = new AudioRecorder({ apiUrl: process.env.API_URL, meetingId: process.env.MEETING_ID,
+        speaker: config.displayName, audioSource: process.env.AUDIO_SOURCE });
+      await recorder.start();
+    } else {
+      console.log('[audio] bỏ qua thu âm; cần API_URL, MEETING_ID và AUDIO_SOURCE');
+    }
     await page.waitForEvent('close', { timeout: 0 });
   } finally {
+    recorder?.stop();
     await browser?.close();
   }
 }
