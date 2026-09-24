@@ -8,4 +8,4 @@ demo:
 docker-up:
 	docker compose up --build
 asr:
-	docker compose --profile asr up --build
+	docker compose up --build

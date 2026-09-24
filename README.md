@@ -38,10 +38,10 @@ Hoặc khởi chạy API, Redis và PostgreSQL:
 docker compose up --build
 ```
 
-Khởi chạy thêm worker phiên âm Faster-Whisper:
+Lệnh trên tự khởi chạy cả worker phiên âm Faster-Whisper:
 
 ```bash
-docker compose --profile asr up --build
+docker compose up --build
 ```
 
 Lần đầu chạy, Faster-Whisper sẽ tải model. Mặc định dự án dùng `small` trên CPU. Máy có NVIDIA CUDA có thể đặt `WHISPER_DEVICE=cuda` và `WHISPER_COMPUTE_TYPE=float16`.
@@ -60,7 +60,16 @@ cp .env.example .env
 TRANSLATION_API_KEY=sk-...
 ```
 
-Mặc định dự án gọi OpenAI với model `gpt-4o-mini`. Có thể dùng nhà cung cấp tương thích OpenAI bằng cách đổi `TRANSLATION_API_URL` và `TRANSLATION_MODEL`. Khi chưa có key, pipeline phiên âm vẫn hoạt động và phần dịch sẽ trả lại nguyên văn thay vì gây lỗi hệ thống.
+Mặc định dự án gọi OpenAI với model `gpt-4o-mini`. Có thể dùng nhà cung cấp tương thích OpenAI bằng cách đổi `TRANSLATION_API_URL` và `TRANSLATION_MODEL`. Các cấu hình Redis, PostgreSQL và Faster-Whisper đã có giá trị mặc định; thông thường đây là dòng duy nhất bạn cần điền. Khi chưa có key, pipeline phiên âm vẫn hoạt động và phần dịch sẽ trả lại nguyên văn thay vì gây lỗi hệ thống.
+
+## Sử dụng giao diện
+
+Sau khi mở `http://localhost:8000`:
+
+1. Nhấn **Thu âm** và cho phép trình duyệt sử dụng micro. Âm thanh sẽ được gửi theo từng đoạn 10 giây.
+2. Hoặc nhấn **Tải tệp** để chọn tệp âm thanh/WebM có sẵn.
+3. Faster-Whisper tự phiên âm; API tự dịch, lưu PostgreSQL và đẩy kết quả lên màn hình qua WebSocket.
+4. Phần tóm tắt và chủ đề AI được cập nhật từ transcript đã lưu.
 
 ## Bot tham gia cuộc họp
 

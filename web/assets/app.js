@@ -6,6 +6,8 @@ let seconds = 18 * 60 + 42;
 let running = true;
 let meetingId = null;
 let socket = null;
+let mediaRecorder = null;
+let mediaStream = null;
 
 function notify(message) {
   toast.textContent = message;
@@ -30,6 +32,28 @@ function addSegment(segment) {
     <span class="confidence">${Math.round(segment.confidence * 100)}%</span>`;
   timeline.appendChild(article);
   timeline.scrollTop = timeline.scrollHeight;
+  setTimeout(refreshInsights, 500);
+}
+
+async function uploadAudio(blob, filename = `audio-${Date.now()}.webm`) {
+  if (!meetingId) throw new Error('Chưa có cuộc họp đang chạy');
+  const form = new FormData();
+  form.append('speaker', 'Người dùng');
+  form.append('file', blob, filename);
+  const response = await fetch(`/api/meetings/${meetingId}/audio`, { method: 'POST', body: form });
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
+}
+
+async function refreshInsights() {
+  if (!meetingId) return;
+  try {
+    const response = await fetch(`/api/meetings/${meetingId}/insights`);
+    if (!response.ok) return;
+    const data = await response.json();
+    document.querySelector('#ai-summary').textContent = data.summary;
+    if (data.topics.length) document.querySelector('#ai-topics').innerHTML = data.topics.map(topic => `<span>${escapeHtml(topic)}</span>`).join('');
+  } catch (error) { console.error(error); }
 }
 
 async function initializeRealtime() {
@@ -54,6 +78,7 @@ async function initializeRealtime() {
       if (message.type === 'status' && message.data.status === 'ended') notify('Cuộc họp đã kết thúc');
     };
     socket.onclose = () => setTimeout(initializeRealtime, 3000);
+    await refreshInsights();
   } catch (error) {
     console.error(error);
     notify('Không thể kết nối máy chủ realtime');
@@ -85,6 +110,46 @@ document.querySelector('#end-meeting').addEventListener('click', async () => {
     document.querySelector('#end-meeting').disabled = true;
     notify('Đã kết thúc cuộc họp');
   }
+});
+
+document.querySelector('#upload-audio').addEventListener('click', () => document.querySelector('#audio-file').click());
+document.querySelector('#audio-file').addEventListener('change', async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const button = document.querySelector('#upload-audio');
+  button.disabled = true;
+  try {
+    await uploadAudio(file, file.name);
+    notify('Đã xếp hàng tệp âm thanh để phiên âm');
+  } catch (error) { notify(`Lỗi tải tệp: ${error.message}`); }
+  finally { button.disabled = false; event.target.value = ''; }
+});
+
+document.querySelector('#record-audio').addEventListener('click', async event => {
+  const button = event.currentTarget;
+  if (mediaRecorder?.state === 'recording') {
+    mediaRecorder.stop();
+    mediaStream.getTracks().forEach(track => track.stop());
+    button.classList.remove('recording');
+    button.textContent = '● Thu âm';
+    document.querySelector('#record-status').textContent = 'Đang xử lý đoạn âm thanh cuối…';
+    return;
+  }
+  try {
+    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'audio/webm;codecs=opus' });
+    mediaRecorder.addEventListener('dataavailable', async ({ data }) => {
+      if (!data.size) return;
+      try { await uploadAudio(data); notify('Đã gửi một đoạn âm thanh để phiên âm'); }
+      catch (error) { notify(`Lỗi gửi âm thanh: ${error.message}`); }
+    });
+    mediaRecorder.addEventListener('stop', () => { document.querySelector('#record-status').textContent = 'ScribeAI sẵn sàng phiên âm theo thời gian thực'; });
+    mediaRecorder.start(10000);
+    button.classList.add('recording');
+    button.textContent = '■ Dừng thu';
+    document.querySelector('#record-status').textContent = 'Đang thu và gửi âm thanh mỗi 10 giây…';
+    notify('Đã bắt đầu thu âm');
+  } catch (error) { notify('Không thể truy cập micro. Hãy cấp quyền cho trình duyệt.'); }
 });
 
 document.querySelectorAll('.task').forEach(task => task.addEventListener('change', () => {

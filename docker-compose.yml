@@ -5,12 +5,15 @@ services:
     environment:
       REDIS_URL: redis://redis:6379/0
       DATABASE_URL: postgresql://scribe:scribe@postgres:5432/scribe
+      TRANSLATION_API_KEY: ${TRANSLATION_API_KEY:-}
+      TRANSLATION_API_URL: ${TRANSLATION_API_URL:-https://api.openai.com/v1}
+      TRANSLATION_MODEL: ${TRANSLATION_MODEL:-gpt-4o-mini}
     depends_on:
       redis: {condition: service_healthy}
       postgres: {condition: service_healthy}
     volumes: ["audio-data:/app/data"]
+    healthcheck: {test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"], interval: 5s, timeout: 3s, retries: 20}
   asr-worker:
-    profiles: ["asr"]
     build:
       context: .
       dockerfile: workers/Dockerfile
@@ -22,7 +25,7 @@ services:
       WHISPER_COMPUTE_TYPE: ${WHISPER_COMPUTE_TYPE:-int8}
     volumes: ["audio-data:/app/data"]
     depends_on:
-      api: {condition: service_started}
+      api: {condition: service_healthy}
   redis:
     image: redis:7-alpine
     command: redis-server --appendonly yes

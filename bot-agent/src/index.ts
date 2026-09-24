@@ -17,6 +17,21 @@ const config: AgentConfig = {
   headless: process.env.HEADLESS !== 'false',
 };
 
+async function resolveMeetingId(apiUrl: string): Promise<string> {
+  if (process.env.MEETING_ID) return process.env.MEETING_ID;
+  const meetingsResponse = await fetch(`${apiUrl}/api/meetings`);
+  if (!meetingsResponse.ok) throw new Error('Không đọc được danh sách cuộc họp');
+  const meetings = await meetingsResponse.json() as Array<{ id: string; status: string }>;
+  const active = meetings.find(meeting => meeting.status === 'live');
+  if (active) return active.id;
+  const created = await fetch(`${apiUrl}/api/meetings`, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ title: 'Cuộc họp do ScribeAI tạo', source_language: 'auto', target_language: 'vi' }) });
+  if (!created.ok) throw new Error('Không tạo được cuộc họp');
+  const meeting = await created.json() as { id: string };
+  await fetch(`${apiUrl}/api/meetings/${meeting.id}/status/live`, { method: 'POST' });
+  return meeting.id;
+}
+
 async function joinGoogleMeet(page: Page): Promise<void> {
   await page.goto(config.meetingUrl, { waitUntil: 'domcontentloaded' });
   const name = page.getByPlaceholder(/your name/i);
@@ -40,12 +55,13 @@ async function run(): Promise<void> {
     if (config.provider === 'google-meet') await joinGoogleMeet(page);
     else throw new Error(`${config.provider} adapter is not enabled yet`);
     console.log(`[agent] joined ${config.provider} as ${config.displayName}`);
-    if (process.env.API_URL && process.env.MEETING_ID && process.env.AUDIO_SOURCE) {
-      recorder = new AudioRecorder({ apiUrl: process.env.API_URL, meetingId: process.env.MEETING_ID,
-        speaker: config.displayName, audioSource: process.env.AUDIO_SOURCE });
+    if (process.env.API_URL) {
+      const meetingId = await resolveMeetingId(process.env.API_URL);
+      recorder = new AudioRecorder({ apiUrl: process.env.API_URL, meetingId,
+        speaker: config.displayName, audioSource: process.env.AUDIO_SOURCE ?? 'default' });
       await recorder.start();
     } else {
-      console.log('[audio] bỏ qua thu âm; cần API_URL, MEETING_ID và AUDIO_SOURCE');
+      console.log('[audio] bỏ qua thu âm; cần cấu hình API_URL');
     }
     await page.waitForEvent('close', { timeout: 0 });
   } finally {

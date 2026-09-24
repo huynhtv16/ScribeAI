@@ -6,4 +6,6 @@
 }
 .toast.show { opacity: 1; transform: none; }
 .segment.new { animation: appear .35s ease-out; }
+.composer button.recording { background: #b83934; color: white; }
+.composer button:disabled { opacity: .55; cursor: wait; }
 @keyframes appear { from { opacity: 0; transform: translateY(8px); } }
