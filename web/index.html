@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101312">
-  <title>ScribeAI — Live multilingual meetings</title>
+  <title>ScribeAI — Trợ lý cuộc họp đa ngôn ngữ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
@@ -15,38 +15,38 @@
     <aside class="sidebar">
       <a class="brand" href="#"><span class="brand-mark">S</span><span>Scribe<span>AI</span></span></a>
       <nav>
-        <p class="eyebrow">Workspace</p>
-        <a class="nav-item active" href="#"><span>◫</span> Live meeting</a>
-        <a class="nav-item" href="#"><span>◎</span> Recordings <b>12</b></a>
-        <a class="nav-item" href="#"><span>⌕</span> Search</a>
-        <p class="eyebrow space">Manage</p>
-        <a class="nav-item" href="#"><span>♧</span> Integrations</a>
-        <a class="nav-item" href="#"><span>⚙</span> Settings</a>
+        <p class="eyebrow">Không gian làm việc</p>
+        <a class="nav-item active" href="#"><span>◫</span> Cuộc họp trực tiếp</a>
+        <a class="nav-item" href="#"><span>◎</span> Bản ghi <b>12</b></a>
+        <a class="nav-item" href="#"><span>⌕</span> Tìm kiếm</a>
+        <p class="eyebrow space">Quản lý</p>
+        <a class="nav-item" href="#"><span>♧</span> Tích hợp</a>
+        <a class="nav-item" href="#"><span>⚙</span> Cài đặt</a>
       </nav>
       <div class="usage">
-        <div class="usage-head"><span>Monthly usage</span><strong>68%</strong></div>
+        <div class="usage-head"><span>Mức dùng tháng này</span><strong>68%</strong></div>
         <div class="meter"><i></i></div>
-        <small>408 of 600 minutes</small>
-        <button>Upgrade plan <span>→</span></button>
+        <small>408 trong 600 phút</small>
+        <button>Nâng cấp gói <span>→</span></button>
       </div>
-      <div class="profile"><span class="avatar">HT</span><div><strong>Huynh Tran</strong><small>Workspace admin</small></div><span>•••</span></div>
+      <div class="profile"><span class="avatar">HT</span><div><strong>Huynh Tran</strong><small>Quản trị viên</small></div><span>•••</span></div>
     </aside>
 
     <main>
       <header class="topbar">
-        <div><div class="crumb">Meetings <span>/</span> Live</div><h1>Product Sync — APAC</h1></div>
-        <div class="top-actions"><button class="icon-btn">↗</button><button class="end-btn"><i></i> End meeting</button></div>
+        <div><div class="crumb">Cuộc họp <span>/</span> Trực tiếp</div><h1>Đồng bộ sản phẩm — APAC</h1></div>
+        <div class="top-actions"><button class="icon-btn" title="Chia sẻ">↗</button><button class="end-btn"><i></i> Kết thúc</button></div>
       </header>
 
       <section class="status-row">
-        <div class="live-pill"><i></i> LIVE <span id="timer">18:42</span></div>
-        <div class="participant-stack"><span class="av a1">ML</span><span class="av a2">AK</span><span class="av a3">JT</span><span class="more">+3</span><span class="people">6 participants</span></div>
-        <div class="language"><span>文</span><div><small>Translating</small><strong>English → Vietnamese</strong></div><button>⌄</button></div>
+        <div class="live-pill"><i></i> TRỰC TIẾP <span id="timer">18:42</span></div>
+        <div class="participant-stack"><span class="av a1">ML</span><span class="av a2">AK</span><span class="av a3">JT</span><span class="more">+3</span><span class="people">6 người tham gia</span></div>
+        <div class="language"><span>文</span><div><small>Đang dịch</small><strong>Tiếng Anh → Tiếng Việt</strong></div><button>⌄</button></div>
       </section>
 
       <section class="workspace">
         <div class="transcript-panel">
-          <div class="panel-title"><div><h2>Live transcript</h2><p>Real-time speech recognition and translation</p></div><div class="panel-actions"><button id="pause">Ⅱ</button><button>•••</button></div></div>
+          <div class="panel-title"><div><h2>Phiên âm trực tiếp</h2><p>Nhận dạng giọng nói và dịch theo thời gian thực</p></div><div class="panel-actions"><button id="pause" title="Tạm dừng">Ⅱ</button><button>•••</button></div></div>
           <div class="timeline" id="timeline">
             <article class="segment">
               <span class="speaker-avatar coral">ML</span><div class="utterance"><div class="speaker"><strong>Mai Linh</strong><time>09:38:12</time><em>VI</em></div><p>Chào mọi người. Chúng ta bắt đầu với tiến độ của bản phát hành tháng Mười nhé.</p><p class="translated">Good morning, everyone. Let's start with the progress on the October release.</p></div><span class="confidence">98%</span>
@@ -58,27 +58,26 @@
               <span class="speaker-avatar gold">JT</span><div class="utterance"><div class="speaker"><strong>Jun Tanaka</strong><time>09:38:41</time><em>JA</em></div><p>モバイル版でも同じ結果を確認できました。バッテリー消費も改善されています。</p><p class="translated">Chúng tôi đã xác nhận kết quả tương tự trên phiên bản di động. Mức tiêu thụ pin cũng đã được cải thiện.</p></div><span class="confidence">94%</span>
             </article>
             <article class="segment current">
-              <span class="speaker-avatar green">SR</span><div class="utterance"><div class="speaker"><strong>Sofia Reyes</strong><time>09:39:03</time><em>EN</em></div><p>That's excellent. Can we include the performance report in tomorrow's stakeholder update?</p><p class="translated">Tuyệt vời. Chúng ta có thể đưa báo cáo hiệu suất vào bản cập nhật cho các bên liên quan ngày mai không?</p><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>Listening…</span></div></div><span class="confidence live-c">LIVE</span>
+              <span class="speaker-avatar green">SR</span><div class="utterance"><div class="speaker"><strong>Sofia Reyes</strong><time>09:39:03</time><em>EN</em></div><p>That's excellent. Can we include the performance report in tomorrow's stakeholder update?</p><p class="translated">Tuyệt vời. Chúng ta có thể đưa báo cáo hiệu suất vào bản cập nhật cho các bên liên quan ngày mai không?</p><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>Đang lắng nghe…</span></div></div><span class="confidence live-c">TRỰC TIẾP</span>
             </article>
           </div>
-          <div class="composer"><span class="pulse">✦</span><span>ScribeAI is listening and translating in real time</span><button title="Add a note">＋ Add note</button></div>
+          <div class="composer"><span class="pulse">✦</span><span>ScribeAI đang lắng nghe và dịch theo thời gian thực</span><button title="Thêm ghi chú">＋ Thêm ghi chú</button></div>
         </div>
 
         <aside class="insights">
-          <div class="insight-head"><h2>AI insights</h2><span class="spark">✦</span></div>
-          <div class="summary"><div class="card-label"><span>✦</span> LIVE SUMMARY</div><p>The team confirmed the new transcription model meets latency targets across web and mobile. Battery performance has also improved.</p><small>Updated just now</small></div>
-          <div class="section-head"><h3>Action items</h3><span>2</span></div>
-          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Share performance report</strong><small>Alex · Tomorrow</small></span></label>
-          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Validate Japanese accuracy</strong><small>Jun · Oct 12</small></span></label>
-          <div class="section-head topics-head"><h3>Topics</h3></div>
-          <div class="topics"><span>Latency</span><span>Mobile</span><span>October release</span><span>Battery</span></div>
-          <div class="sentiment"><div><span>Meeting sentiment</span><strong>Positive</strong></div><div class="sentiment-bar"><i></i></div><small>85% positive engagement</small></div>
+          <div class="insight-head"><h2>Phân tích từ AI</h2><span class="spark">✦</span></div>
+          <div class="summary"><div class="card-label"><span>✦</span> TÓM TẮT TRỰC TIẾP</div><p>Nhóm đã xác nhận mô hình phiên âm mới đáp ứng mục tiêu độ trễ trên cả web và di động. Hiệu suất sử dụng pin cũng đã được cải thiện.</p><small>Vừa cập nhật</small></div>
+          <div class="section-head"><h3>Việc cần làm</h3><span>2</span></div>
+          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Chia sẻ báo cáo hiệu suất</strong><small>Alex · Ngày mai</small></span></label>
+          <label class="task"><input type="checkbox"><span class="check"></span><span><strong>Kiểm tra độ chính xác tiếng Nhật</strong><small>Jun · 12 tháng 10</small></span></label>
+          <div class="section-head topics-head"><h3>Chủ đề</h3></div>
+          <div class="topics"><span>Độ trễ</span><span>Di động</span><span>Bản phát hành tháng 10</span><span>Pin</span></div>
+          <div class="sentiment"><div><span>Sắc thái cuộc họp</span><strong>Tích cực</strong></div><div class="sentiment-bar"><i></i></div><small>85% mức độ tương tác tích cực</small></div>
         </aside>
       </section>
-      <footer><span><i></i> All systems operational</span><span>Powered by Faster-Whisper · 742ms latency</span></footer>
+      <footer><span><i></i> Tất cả hệ thống hoạt động bình thường</span><span>Vận hành bởi Faster-Whisper · độ trễ 742ms</span></footer>
     </main>
   </div>
   <script src="/assets/app.js"></script>
 </body>
 </html>
-

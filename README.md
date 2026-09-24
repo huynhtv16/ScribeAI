@@ -1,20 +1,20 @@
 # ScribeAI
 
-Distributed AI meeting assistant for real-time multilingual transcription and translation. The current MVP provides a working FastAPI/WebSocket ingestion API, a polished live meeting dashboard, and a headless Playwright meeting agent scaffold.
+Trợ lý cuộc họp AI phân tán, hỗ trợ phiên âm và dịch đa ngôn ngữ theo thời gian thực. Phiên bản MVP hiện có API tiếp nhận dữ liệu bằng FastAPI/WebSocket, bảng điều khiển cuộc họp trực tiếp và bộ khung bot tham gia cuộc họp bằng Playwright chạy ẩn.
 
-![ScribeAI live dashboard](screenshots/dashboard.png)
+![Bảng điều khiển trực tiếp của ScribeAI](screenshots/dashboard.png)
 
-## What works
+## Tính năng hiện có
 
-- Create and manage live meeting sessions through a typed REST API.
-- Ingest speaker-attributed transcript segments and broadcast them over WebSockets.
-- Monitor a multilingual live transcript with translations, confidence, summary, tasks, topics, and sentiment.
-- Launch a zero-shot Google Meet bot using TypeScript and Playwright (subject to the meeting host admitting it).
-- Run the service stack with FastAPI, Redis, and PostgreSQL through Docker Compose.
+- Tạo và quản lý phiên họp trực tiếp thông qua REST API có kiểu dữ liệu rõ ràng.
+- Tiếp nhận các đoạn phiên âm theo từng người nói và phát trực tiếp qua WebSocket.
+- Theo dõi bản ghi đa ngôn ngữ cùng bản dịch, độ tin cậy, tóm tắt, việc cần làm, chủ đề và sắc thái cuộc họp.
+- Khởi chạy bot Google Meet bằng TypeScript và Playwright; bot cần được chủ phòng chấp nhận cho tham gia.
+- Chạy toàn bộ hệ thống FastAPI, Redis và PostgreSQL bằng Docker Compose.
 
-## Quick start
+## Khởi động nhanh
 
-Requires Python 3.11+.
+Yêu cầu Python 3.11 trở lên.
 
 ```bash
 python -m venv .venv
@@ -22,21 +22,21 @@ python -m venv .venv
 .venv/bin/uvicorn app.main:app --reload
 ```
 
-Open [http://localhost:8000](http://localhost:8000). API documentation is at `/docs` and health status at `/api/health`.
+Mở [http://localhost:8000](http://localhost:8000). Tài liệu API nằm tại `/docs`, trạng thái hệ thống nằm tại `/api/health`.
 
-Run tests:
+Chạy kiểm thử:
 
 ```bash
 .venv/bin/pytest -q
 ```
 
-Or launch the infrastructure:
+Hoặc khởi chạy toàn bộ hạ tầng:
 
 ```bash
 docker compose up --build
 ```
 
-## Meeting bot
+## Bot tham gia cuộc họp
 
 ```bash
 cd bot-agent
@@ -45,34 +45,34 @@ npx playwright install chromium
 MEETING_URL="https://meet.google.com/..." npm start
 ```
 
-The agent joins muted with the name `ScribeAI Notes`. Google Meet UI selectors can change, so validate the bot against your Workspace policy before production use.
+Bot sẽ tham gia ở trạng thái tắt tiếng với tên `ScribeAI Notes`. Giao diện và bộ chọn phần tử của Google Meet có thể thay đổi, vì vậy hãy kiểm tra bot theo chính sách Google Workspace của bạn trước khi dùng trong môi trường thực tế.
 
-## Architecture
+## Kiến trúc
 
 ```text
-Meeting ──> Playwright agent ──> Audio/segment workers
-                                      │
-                                      ▼
-Dashboard <── WebSocket/API <── Redis Streams
-                    │
-                    └──────────> PostgreSQL
+Cuộc họp ──> Bot Playwright ──> Bộ xử lý âm thanh/đoạn hội thoại
+                                        │
+                                        ▼
+Bảng điều khiển <── WebSocket/API <── Redis Streams
+                         │
+                         └──────────> PostgreSQL
 ```
 
-The MVP uses an in-process repository for a zero-config demo. `docker-compose.yml` provisions Redis Streams and PostgreSQL as the production integration boundary. Faster-Whisper/CUDA workers can publish normalized `TranscriptSegment` events to `POST /api/meetings/{id}/segments` while the API fans them out to connected clients.
+MVP sử dụng kho dữ liệu trong bộ nhớ để có thể chạy demo ngay mà không cần cấu hình. `docker-compose.yml` cung cấp Redis Streams và PostgreSQL làm ranh giới tích hợp cho môi trường triển khai. Các worker Faster-Whisper/CUDA có thể gửi sự kiện `TranscriptSegment` đã chuẩn hóa tới `POST /api/meetings/{id}/segments`; API sẽ phát các sự kiện này tới những máy khách đang kết nối.
 
-## API example
+## Ví dụ gọi API
 
 ```bash
 curl -X POST http://localhost:8000/api/meetings \
   -H 'content-type: application/json' \
-  -d '{"title":"Weekly sync","source_language":"auto","target_language":"vi"}'
+  -d '{"title":"Họp đồng bộ hằng tuần","source_language":"auto","target_language":"vi"}'
 ```
 
-## Roadmap
+## Lộ trình phát triển
 
-- Faster-Whisper GPU worker and voice activity detection
-- Durable Redis consumer groups and PostgreSQL repositories
-- Zoom and Microsoft Teams meeting adapters
-- Authentication, tenant isolation, and encrypted recordings
+- Worker Faster-Whisper sử dụng GPU và tính năng phát hiện giọng nói.
+- Redis consumer group bền vững và kho dữ liệu PostgreSQL.
+- Bộ kết nối cuộc họp Zoom và Microsoft Teams.
+- Xác thực, phân tách dữ liệu theo tổ chức và mã hóa bản ghi.
 
-MIT licensed. See [LICENSE](LICENSE).
+Dự án sử dụng giấy phép MIT. Xem [LICENSE](LICENSE).
